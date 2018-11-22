@@ -7,7 +7,7 @@
 # you're doing.
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/xenial64"
-  config.vm.provision "file", source: "strongswan.config", destination: "strongswan.config"
+  config.vm.provision "file", source: "ipsec.conf", destination: "ipsec.conf"
   config.vm.provision :shell, path: "make-ipsec-forwarder.sh"
 
   # Disable automatic box update checking. If you disable this, then
@@ -39,13 +39,13 @@ Vagrant.configure(2) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  #config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "virtualbox" do |vb|
   #  # Display the VirtualBox GUI when booting the machine
-  #  vb.gui = true
+    vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
   #  vb.memory = "2048"
-  #end
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
