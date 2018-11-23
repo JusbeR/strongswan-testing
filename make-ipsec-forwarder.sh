@@ -69,9 +69,9 @@ cp ipsec.conf /etc/ipsec.conf
 
 ## Set server IP + usernames
 insert_if_not_exists "$SERVER_IP_ADDR : RSA \"/etc/ipsec.d/private/vpn-server-key.pem\"" "/etc/ipsec.secrets"
-insert_if_not_exists "$USER %any% : EAP \"$PASS\"" "/etc/ipsec.secrets"
+#insert_if_not_exists "$USER %any% : EAP \"$PASS\"" "/etc/ipsec.secrets"
 
-ipsec reload
+#ipsec reload
 
 # Firewall & forwarding
 
@@ -105,9 +105,9 @@ iptables -t mangle -A FORWARD --match policy --pol ipsec --dir in -s 10.10.10.10
 iptables -A INPUT -j DROP
 iptables -A FORWARD -j DROP
 
-# TODO: Rules are not permanent
-#netfilter-persistent save
-#netfilter-persistent reload
+mkdir -p /etc/iptables
+iptables-save > /etc/iptables/rules.v4
+echo "iptables-restore < /etc/iptables/rules.v4" > /etc/rc.local
 
 # Kernel IP packet forwarding
 insert_if_not_exists "net.ipv4.ip_forward = 1" "/etc/sysctl.conf"
